@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>【機密檔案 #X-00】斑馬線訊號異常觀測終端</title>
+<link rel="preconnect" href="https://googleapis.com">
+<link rel="preconnect" href="https://gstatic.com" crossorigin>
+<link href="https://googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<script src="https://jsdelivr.net"></script>
+<style>
+  :root {
+    --bg-primary: #0b131e;
+    --bg-secondary: #121f30;
+    --bg-card: #16263b;
+    --border-color: #2b4c73;
+    --accent-blue: #64b5f6;
+    --accent-cyan: #a8d8ff;
+    --text-main: #e3f2fd;
+    --text-muted: #90caf9;
+    --risk-low: #2e7d32;
+    --risk-mid: #ef6c00;
+    --risk-high: #c62828;
+    --risk-none: #616161;
+    --font-mono: 'Share Tech Mono', 'Noto Sans TC', monospace;
+    --font-sans: 'Noto Sans TC', sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    background-image: 
+      radial-gradient(circle at 50% 0%, rgba(100, 181, 246, 0.08) 0%, transparent 60%),
+      linear-gradient(rgba(43, 76, 115, 0.15) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(43, 76, 115, 0.15) 1px, transparent 1px);
+    background-size: 100% 100%, 24px 24px, 24px 24px;
+    color: var(--text-main);
+    font-family: var(--font-sans);
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  /* 導覽列 */
+  header {
+    background: rgba(11, 19, 30, 0.92);
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.9rem 1.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--accent-cyan);
+    letter-spacing: 0.05em;
+  }
+
+  nav {
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+  }
+
+  nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-family: var(--font-mono);
+    transition: color 0.2s;
+  }
+
+  nav a:hover {
+    color: var(--accent-cyan);
+    text-shadow: 0 0 8px rgba(168, 216, 255, 0.5);
+  }
+
+  /* 容器與區塊 */
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 1.5rem;
+  }
+
+  section {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 1.8rem;
+    margin-bottom: 1.8rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    position: relative;
+  }
+
+  section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--accent-blue);
+    border-radius: 6px 0 0 6px;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-mono);
+    color: var(--accent-cyan);
+    letter-spacing: 0.04em;
+  }
+
+  h2 {
+    font-size: 1.35rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px dashed var(--border-color);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  p {
+    margin-bottom: 0.8rem;
+    color: var(--text-main);
+  }
+
+  /* Hero 區塊 */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: center;
+    background: linear-gradient(135deg, #101d2e 0%, #172a45 100%);
+  }
+
+  .hero-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--bg-primary);
+    background: var(--accent-blue);
+    padding: 0.15rem 0.6rem;
+    border-radius: 3px;
+    margin-bottom: 0.7rem;
+    font-weight: bold;
+  }
+
+  .hero h1 {
+    font-size: 1.9rem;
+    margin-bottom: 0.8rem;
+    line-height: 1.3;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    background: transparent;
+    color: var(--accent-cyan);
+    border: 1px solid var(--accent-blue);
+    padding: 0.7rem 1.4rem;
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    text-decoration: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 0.5rem;
+  }
+
+  .btn-primary:hover {
+    background: rgba(100, 181, 246, 0.18);
+    box-shadow: 0 0 12px rgba(100, 181, 246, 0.4);
+  }
+
+  /* 吉祥物容器 */
+  .mascot-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(11, 19, 30, 0.6);
+    border: 1px solid var(--border-color);
+    padding: 1rem;
+    border-radius: 6px;
+    text-align: center;
+    min-width: 150px;
+  }
+
+  .mascot-caption {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+  }
+
+  /* 網格卡片 */
+  .grid-4 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 1.1rem;
+    border-radius: 5px;
+  }
+
+  .card h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .card p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 0;
+  }
+
+  /* 圖例 */
+  .legend-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    align-items: center;
+    background: rgba(11, 19, 30, 0.7);
+    border: 1px solid var(--border-color);
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .legend-swatch {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #00FF00;
+    background: rgba(0, 255, 0, 0.15);
+    vertical-align: middle;
+    margin-right: 0.4rem;
+  }
+
+  /* 表格 */
+  .table-wrap {
+    overflow-x: auto;
+    margin-top: 0.8rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.92rem;
+  }
+
+  th, td {
+    border: 1px solid var(--border-color);
+    padding: 0.75rem 0.9rem;
+    text-align: left;
+  }
+
+  th {
+    background: rgba(11, 19, 30, 0.85);
+    color: var(--accent-cyan);
+    font-family: var(--font-mono);
+  }
+
+  tr:nth-child(even) td {
+    background: rgba(22, 38, 59, 0.5);
+  }
+
+  /* 實作測試區 */
+  .test-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .upload-panel {
+    background: var(--bg-card);
+    border: 1px dashed var(--accent-blue);
+    padding: 1.3rem;
+    border-radius: 6px;
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  input[type="file"] {
+    font-family: var(--font-mono);
+    color: var(--text-main);
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    padding: 0.6rem;
+    border-radius: 4px;
+    cursor: pointer;
+    max-width: 100%;
+  }
+
+  input[type="file"]:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  #status {
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    color: var(--accent-cyan);
+    background: rgba(11, 19, 30, 0.85);
+    padding: 0.6rem 0.9rem;
+    border-left: 3px solid var(--accent-blue);
+    border-radius: 0 4px 4px 0;
+  }
+
+  .canvas-container {
+    margin-top: 1.2rem;
+    text-align: center;
+    background: #070c14;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 0.8rem;
+    overflow: hidden;
+  }
+
+  #outputCanvas {
+    max-width: 100%;
+    height: auto;
+    display: inline-block;
+    border-radius: 4px;
+  }
+
+  /* 評估報告 */
+  #report {
+    display: none;
+    margin-top: 1.6rem;
+    background: #0e1826;
+    border: 1px solid var(--accent-blue);
+    border-radius: 6px;
+    padding: 1.5rem;
+  }
+
+  #report h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+  }
+
+  .report-row {
+    margin-bottom: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .report-label {
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    font-weight: bold;
+    min-width: 95px;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    color: #ffffff;
+    font-weight: bold;
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+  }
+
+  .detail {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.6rem 0 1.2rem 0;
+  }
+
+  .detail th, .detail td {
+    border: 1px solid var(--border-color);
+    padding: 0.65rem 0.8rem;
+  }
+
+  #reportAdvice {
+    padding-left: 1.4rem;
+    margin-top: 0.4rem;
+    margin-bottom: 1rem;
+  }
+
+  #reportAdvice li {
+    margin-bottom: 0.4rem;
+  }
+
+  .report-disclaimer {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    border-top: 1px dashed var(--border-color);
+    padding-top: 0.8rem;
+    margin-top: 1rem;
+    margin-bottom: 0;
+  }
+
+  /* 流程圖步驟 */
+  .pipeline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    align-items: center;
+    margin: 1rem 0;
+    font-family: var(--font-mono);
+  }
+
+  .step-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 0.6rem 1rem;
+    border-radius: 4px;
+    color: var(--accent-cyan);
+  }
+
+  .step-arrow {
+    color: var(--accent-blue);
+    font-weight: bold;
+  }
+
+  .note-box {
+    background: rgba(100, 181, 246, 0.1);
+    border: 1px solid var(--border-color);
+    padding: 0.85rem 1rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    margin-top: 0.8rem;
+  }
+
+  footer {
+    text-align: center;
+    padding: 1.8rem 1rem;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    margin-top: 2rem;
+  }
+
+  @media (max-width: 720px) {
+    .hero {
+      grid-template-columns: 1fr;
+    }
+    .mascot-box {
+      flex-direction: row;
+      justify-content: center;
+      gap: 1rem;
+    }
+    section {
+      padding: 1.2rem;
+    }
+  }
+</style>
+</head>
+<body>
+
